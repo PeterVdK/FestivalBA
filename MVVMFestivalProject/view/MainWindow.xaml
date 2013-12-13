@@ -1,0 +1,42 @@
+﻿<Window x:Class="MVVMFestivalProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:MVVMFestivalProject.viewmodel"
+        xmlns:v="clr-namespace:MVVMFestivalProject.view"
+        Title="Festival" Height="700" Width="1050">
+    <Window.DataContext>
+        <vm:ApplicationVM/>
+    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:HomeVM}">
+            <v:Home/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ContactpersonVM}">
+            <v:Contactpersonen/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:LineUpVM}">
+            <v:LineUp/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TicketVM}">
+            <v:Ticketing/>
+        </DataTemplate>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ItemsControl ItemsSource="{Binding Pages}">
+            <ItemsControl.Background>
+                <SolidColorBrush Color="Black"></SolidColorBrush>
+            </ItemsControl.Background>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Style="{StaticResource button}" Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ContentControl Grid.Column="1" Content="{Binding CurrentPage}"/>
+    </Grid>
+</Window>

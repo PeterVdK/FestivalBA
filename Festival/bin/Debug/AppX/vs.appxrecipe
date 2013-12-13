@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Machine>PETER-PC</Machine>
+    <WindowsUser>Peter</WindowsUser>
+    <SolutionConfiguration>Debug|AnyCPU</SolutionConfiguration>
+    <PackageArchitecture>neutral</PackageArchitecture>
+    <RegisteredManifestChecksum>977B32DFC6204C37D44AF73720C3CCE057E7BDAE6125F4807F765BD970278500</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>a5c307e5-5e6a-4f50-a410-1f74bab9340a_1.0.0.0_neutral__tp1tpcm9wdwpy</RegisteredPackageMoniker>
+    <RegisteredUserModeAppID>a5c307e5-5e6a-4f50-a410-1f74bab9340a_tp1tpcm9wdwpy!App</RegisteredUserModeAppID>
+    <RegisteredPackageID>a5c307e5-5e6a-4f50-a410-1f74bab9340a</RegisteredPackageID>
+    <RegisteredPackagePublisher>CN=Peter</RegisteredPackagePublisher>
+    <RegisteredVersion>1.0.0.0</RegisteredVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppXManifest Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\AppxManifest.xml">
+      <PackagePath>AppxManifest.xml</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2013-12-11T17:23:50.508</Modified>
+    </AppXManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\Festival.exe">
+      <PackagePath>Festival.exe</PackagePath>
+      <Modified>2013-12-11T17:46:20.691</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\Festival.pdb">
+      <PackagePath>Festival.pdb</PackagePath>
+      <Modified>2013-12-11T17:46:20.195</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\Assets\Logo.png">
+      <PackagePath>Assets\Logo.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2013-12-11T17:04:50.336</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\Assets\SmallLogo.png">
+      <PackagePath>Assets\SmallLogo.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2013-12-11T17:04:50.339</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\Assets\SplashScreen.png">
+      <PackagePath>Assets\SplashScreen.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2013-12-11T17:10:38.534</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\Assets\StoreLogo.png">
+      <PackagePath>Assets\StoreLogo.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2013-12-11T17:04:50.341</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\Assets\LightGray.png">
+      <PackagePath>Assets\LightGray.png</PackagePath>
+      <Modified>2011-12-12T21:08:56.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\Assets\MediumGray.png">
+      <PackagePath>Assets\MediumGray.png</PackagePath>
+      <Modified>2011-12-12T21:08:56.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\Assets\DarkGray.png">
+      <PackagePath>Assets\DarkGray.png</PackagePath>
+      <Modified>2011-12-12T21:08:56.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\Assets\WideLogo.png">
+      <PackagePath>Assets\WideLogo.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2013-12-11T17:04:50.343</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\App.xaml">
+      <PackagePath>App.xaml</PackagePath>
+      <Modified>2013-12-11T15:11:58.759</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\Common\StandardStyles.xaml">
+      <PackagePath>Common\StandardStyles.xaml</PackagePath>
+      <Modified>2012-06-26T15:19:20.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\GroupedItemsPage.xaml">
+      <PackagePath>GroupedItemsPage.xaml</PackagePath>
+      <Modified>2013-12-11T17:38:29.316</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\ItemDetailPage.xaml">
+      <PackagePath>ItemDetailPage.xaml</PackagePath>
+      <Modified>2013-12-11T15:11:58.851</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\resources.pri">
+      <PackagePath>resources.pri</PackagePath>
+      <Modified>2013-12-11T17:10:43.492</Modified>
+    </AppxPackagedFile>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>
