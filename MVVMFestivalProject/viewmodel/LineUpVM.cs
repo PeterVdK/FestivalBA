@@ -179,6 +179,7 @@ namespace MVVMFestivalProject.viewmodel
                 DbParameter parTwitter = Database.AddParameter("@Twitter", NewBand.Twitter);
                 Database.ModifyData(sql, parName, parPicture, parDescription, parFacebook, parTwitter);
                 BandList.Add(NewBand);
+                BandList = Band.GetBands();
                 MessageBox.Show("Artiest werd succesvol toegevoegd");
             }
             catch (Exception ex)
@@ -195,6 +196,7 @@ namespace MVVMFestivalProject.viewmodel
                 DbParameter par = Database.AddParameter("@Datum", NewDate.Date);
                 Database.ModifyData(sql, par);
                 FestivaldateList.Add(NewDate);
+                FestivaldateList = Festival.GetDatums();
                 MessageBox.Show("Datum werd succesvol toegevoegd");
             }
             catch (Exception ex)
@@ -211,6 +213,7 @@ namespace MVVMFestivalProject.viewmodel
                 DbParameter par = Database.AddParameter("@Stage", NewStage.Name);
                 Database.ModifyData(sql, par);
                 StageList.Add(NewStage);
+                StageList = Stage.GetStages();
                 MessageBox.Show("Podium werd succesvol toegevoegd");
             }
             catch (Exception ex)
@@ -232,6 +235,7 @@ namespace MVVMFestivalProject.viewmodel
                     DbParameter par = Database.AddParameter("@id", SelectedLineUp.ID);
                     Database.ModifyData(sql, par);
                     LineUpList.Remove(SelectedLineUp);
+                    NewLineUp();
                     MessageBox.Show("Line up werd succesvol verwijderd");
                 }
                 catch (Exception ex)
@@ -262,7 +266,9 @@ namespace MVVMFestivalProject.viewmodel
                     string sql3 = "DELETE FROM Band_Genre WHERE ID=@bandid";
                     DbParameter parBandID = Database.AddParameter("@ibandid", SelectedLineUp.Band.ID);
                     Database.ModifyData(sql3, parBandID);
+                    BandList.Remove(SelectedLineUp.Band);
                     LineUpList.Remove(SelectedLineUp);
+                    NewLineUp();
                     MessageBox.Show("Line up en artiest werden succesvol verwijderd");
                 }
                 catch (Exception ex)
@@ -278,15 +284,24 @@ namespace MVVMFestivalProject.viewmodel
         }
         public void SaveLineUp()
         {
-            string sql = "INSERT INTO LineUp(Start,Finish,BandID,StageID,FestivaldagID) VALUES(@Start,@Finish,@BandID,@StageID,@FestivaldagID)";
-            DbParameter parStart = Database.AddParameter("@Start", SelectedLineUp.From);
-            DbParameter parFinish = Database.AddParameter("@Finish", SelectedLineUp.Until);
-            DbParameter parBandID = Database.AddParameter("@BandID", SelectedLineUp.Band.ID);
-            DbParameter parStageID = Database.AddParameter("@StageID", SelectedLineUp.Stage.ID);
-            DbParameter parDateID = Database.AddParameter("@FestivaldagID", SelectedLineUp.Date.ID);
-            Database.ModifyData(sql, parStart, parFinish,parBandID, parStageID, parDateID);
-            LineUpList.Add(SelectedLineUp);
-            MessageBox.Show("Artiest werd succesvol toegevoegd aan de line up");
+            try
+            {
+                string sql = "INSERT INTO LineUp(Start,Finish,BandID,StageID,FestivaldagID) VALUES(@Start,@Finish,@BandID,@StageID,@FestivaldagID)";
+                DbParameter parStart = Database.AddParameter("@Start", SelectedLineUp.From);
+                DbParameter parFinish = Database.AddParameter("@Finish", SelectedLineUp.Until);
+                DbParameter parBandID = Database.AddParameter("@BandID", SelectedLineUp.Band.ID);
+                DbParameter parStageID = Database.AddParameter("@StageID", SelectedLineUp.Stage.ID);
+                DbParameter parDateID = Database.AddParameter("@FestivaldagID", SelectedLineUp.Date.ID);
+                Database.ModifyData(sql, parStart, parFinish, parBandID, parStageID, parDateID);
+                LineUpList.Add(SelectedLineUp);
+                LineUpList = LineUp.GetLineUp();
+                NewLineUp();
+                MessageBox.Show("Artiest werd succesvol toegevoegd aan de line up");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         public ICommand EditLineUpCommand

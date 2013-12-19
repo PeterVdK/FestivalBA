@@ -62,5 +62,29 @@ namespace MVVMFestivalProject.view
                 btnAllesVerwijderen.IsEnabled = true;
             }
         }
+
+        private void btnVerwijderen_Click(object sender, RoutedEventArgs e)
+        {
+            btnToewijzen.IsEnabled = true;
+            btnBewerken.IsEnabled = false;
+            btnVerwijderen.IsEnabled = false;
+            btnAllesVerwijderen.IsEnabled = false;
+        }
+
+        private void btnAllesVerwijderen_Click(object sender, RoutedEventArgs e)
+        {
+            btnToewijzen.IsEnabled = true;
+            btnBewerken.IsEnabled = false;
+            btnVerwijderen.IsEnabled = false;
+            btnAllesVerwijderen.IsEnabled = false;
+        }
+
+        private void btnToewijzen_Click(object sender, RoutedEventArgs e)
+        {
+            btnToewijzen.IsEnabled = true;
+            btnBewerken.IsEnabled = false;
+            btnVerwijderen.IsEnabled = false;
+            btnAllesVerwijderen.IsEnabled = false;
+        }
     }
 }

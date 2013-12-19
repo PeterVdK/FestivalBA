@@ -114,6 +114,7 @@ namespace MVVMFestivalProject.viewmodel
 
                 Database.ModifyData(sql, parName, parFirstName, parGender, parBirthdate, parCompany, parStreet, parCity, parPhone, parCellphone, parEmail, parNumber, parJobRole);
                 ContactpersonList.Add(SelectedContactperson);
+                ContactpersonList = Contactperson.GetContactpersons();
                 MessageBox.Show("Contactpersoon werd succesvol toegevoegd");
             }
             catch (Exception ex)

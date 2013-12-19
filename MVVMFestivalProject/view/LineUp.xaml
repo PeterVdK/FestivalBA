@@ -59,8 +59,8 @@
             <TextBlock x:Name="txbOmschrijving" Padding="3" TextWrapping="Wrap" Text="{Binding SelectedLineUp.Band.Description}"/>
         </ScrollViewer>
         <Button x:Name="btnNieuw" Grid.Row="8" Grid.ColumnSpan="3" Margin="3" Command="{Binding NewLineUpCommand}" Click="btnNieuw_Click">Nieuw</Button>
-        <Button x:Name="btnVerwijderen" Grid.Row="9" IsEnabled="False" Grid.ColumnSpan="3" Margin="3" Command="{Binding DeleteLineUpCommand}">Line up verwijderen</Button>
-        <Button x:Name="btnAllesVerwijderen" Grid.Row="10" IsEnabled="False" Grid.ColumnSpan="3" Margin="3" Command="{Binding DeleteLineUpArtiestCommand}">Line up verwijderen (incl. artiest)</Button>
+        <Button x:Name="btnVerwijderen" Grid.Row="9" IsEnabled="False" Grid.ColumnSpan="3" Margin="3" Command="{Binding DeleteLineUpCommand}" Click="btnVerwijderen_Click">Line up verwijderen</Button>
+        <Button x:Name="btnAllesVerwijderen" Grid.Row="10" IsEnabled="False" Grid.ColumnSpan="3" Margin="3" Command="{Binding DeleteLineUpArtiestCommand}" Click="btnAllesVerwijderen_Click">Line up verwijderen (incl. artiest)</Button>
         <GroupBox Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="5" Margin="10,3,3,3" Header="Artiest toevoegen" BorderBrush="Black">
                 <Grid Margin="3">
                     <Label Grid.ColumnSpan="2">Naam*</Label>
@@ -107,7 +107,7 @@
                     <TextBox x:Name="txtStarttijd" Grid.Row="3" Grid.Column="3" Margin="3" Text="{Binding SelectedLineUp.From,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
                     <Label Grid.Row="4" Margin="3">Eindtijd*</Label>
                     <TextBox x:Name="txtEindtijd" Grid.Row="4" Grid.Column="1" Margin="4" Text="{Binding SelectedLineUp.Until,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
-                    <Button x:Name="btnToewijzen" Grid.Row="5" Grid.ColumnSpan="3" Margin="3" Command="{Binding SaveLineUpCommand}">Toewijzen</Button>
+                    <Button x:Name="btnToewijzen" Grid.Row="5" Grid.ColumnSpan="3" Margin="3" Command="{Binding SaveLineUpCommand}" Click="btnToewijzen_Click">Toewijzen</Button>
                     <Button x:Name="btnBewerken" Grid.Row="6" Grid.ColumnSpan="3" Margin="3" IsEnabled="False" Command="{Binding EditLineUpCommand}">Bewerken</Button>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>

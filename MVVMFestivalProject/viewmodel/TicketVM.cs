@@ -47,6 +47,12 @@ namespace MVVMFestivalProject.viewmodel
             get { return _ticketTypeList; }
             set { _ticketTypeList = value; OnPropertyChanged("TicketTypeList"); }
         }
+        private TicketType _selectedTicketType;
+        public TicketType SelectedTicketType
+        {
+            get { return _selectedTicketType; }
+            set { _selectedTicketType = value; OnPropertyChanged("SelectedTicketType"); }
+        }
 
         private TicketType _newTicketType;
         public TicketType NewTicketType
@@ -85,6 +91,7 @@ namespace MVVMFestivalProject.viewmodel
                 DbParameter parAvailable = Database.AddParameter("@Available", NewTicketType.AvailableTickets);
                 Database.ModifyData(sql, parName, parPrice, parAvailable);
                 TicketTypeList.Add(NewTicketType);
+                TicketTypeList = TicketType.GetTicketTypes();
                 MessageBox.Show("Tickettype werd succesvol toegevoegd");
             }
             catch (Exception ex)
@@ -107,8 +114,20 @@ namespace MVVMFestivalProject.viewmodel
                 DbParameter parAmount = Database.AddParameter("@Amount", SelectedTicketholder.Amount);
                 DbParameter parType = Database.AddParameter("@Type", SelectedTicketholder.Dag.ID);
 
-                Database.ModifyData(sql, parID, parName, parFirstName, parEmail, parAmount, parType);
-                MessageBox.Show("Reservatie werd succesvol bewerkt");
+                string sql2 = "UPDATE Tickettypes SET Tickettypes.Available=Tickettypes.Available-@Aantal ";
+                sql2 += "FROM Tickettypes INNER JOIN Ticketholders ON Tickettypes.ID = Ticketholders.TickettypeID ";
+                sql2 += "WHERE Tickettypes.Name=@TypeNaam";
+                DbParameter parAantal = Database.AddParameter("@Aantal", SelectedTicketholder.Amount);
+                DbParameter parTypeNaam = Database.AddParameter("@TypeNaam", SelectedTicketholder.Dag.Name);
+
+                if (SelectedTicketholder.Amount <= SelectedTicketholder.Dag.AvailableTickets)
+                {
+                    Database.ModifyData(sql, parID, parName, parFirstName, parEmail, parAmount, parType);
+                    Database.ModifyData(sql2, parAantal, parTypeNaam);
+                    MessageBox.Show("Reservatie werd succesvol bewerkt");
+                }
+                else
+                    MessageBox.Show("Er zijn onvoldoende tickets beschikbaar");
             }
             catch (Exception ex)
             {
@@ -139,6 +158,7 @@ namespace MVVMFestivalProject.viewmodel
                     Database.ModifyData(sql, parName, parFirstName, parEmail, parTypeID, parAmount);
                     Database.ModifyData(sql2, parAantal, parTypeNaam);
                     TicketholderList.Add(SelectedTicketholder);
+                    SelectedTicketholder.Dag.AvailableTickets -= SelectedTicketholder.Amount;
                     MessageBox.Show("Reservatie werd succesvol toegevoegd");
                 }
                 else
@@ -172,18 +192,54 @@ namespace MVVMFestivalProject.viewmodel
             try
             {
                 string filename = SelectedTicketholder.Name + "_" + SelectedTicketholder.FirstName + "_" + SelectedTicketholder.Dag.Name + ".docx";
-                File.Copy("template.docx",filename,true);
+                File.Copy("template.docx", filename, true);
 
                 WordprocessingDocument newdoc = WordprocessingDocument.Open(filename, true);
-                IDictionary<String,BookmarkStart> bookmarks = new Dictionary<String,BookmarkStart>();
+                IDictionary<String, BookmarkStart> bookmarks = new Dictionary<String, BookmarkStart>();
                 foreach (BookmarkStart bms in newdoc.MainDocumentPart.RootElement.Descendants<BookmarkStart>())
                 {
                     bookmarks[bms.Name] = bms;
                 }
-                bookmarks["Naam"].Parent.InsertAfter<Run>(new Run(new Text(SelectedTicketholder.Name)), bookmarks["Naam"]);
-                bookmarks["Voornaam"].Parent.InsertAfter<Run>(new Run(new Text(SelectedTicketholder.FirstName)), bookmarks["Voornaam"]);
-                bookmarks["Type"].Parent.InsertAfter<Run>(new Run(new Text(SelectedTicketholder.Dag.Name)), bookmarks["Type"]);
-                bookmarks["Prijs"].Parent.InsertAfter<Run>(new Run(new Text(SelectedTicketholder.Dag.Price.ToString())), bookmarks["Prijs"]);
+
+
+                Run runName = new Run(new Text(SelectedTicketholder.Name + " " + SelectedTicketholder.FirstName));
+                RunProperties propName = new RunProperties();
+                RunFonts fontName = new RunFonts() { Ascii = "Calibri", HighAnsi = "Calibri" };
+                FontSize sizeName = new FontSize() { Val = "48" };
+                propName.Append(fontName);
+                propName.Append(sizeName);
+                runName.PrependChild<RunProperties>(propName);
+
+                Run runType = new Run(new Text(SelectedTicketholder.Dag.Name));
+                RunProperties propType = new RunProperties();
+                RunFonts fontType = new RunFonts() { Ascii = "Calibri", HighAnsi = "Calibri" };
+                FontSize sizeType = new FontSize() { Val = "144" };
+                propType.Append(fontType);
+                propType.Append(sizeType);
+                runType.PrependChild<RunProperties>(propType);
+
+                Run runPrice = new Run(new Text("€"+SelectedTicketholder.Dag.Price.ToString()));
+                RunProperties propPrice = new RunProperties();
+                RunFonts fontPrice = new RunFonts() { Ascii = "Calibri", HighAnsi = "Calibri" };
+                FontSize sizePrice = new FontSize() { Val = "72" };
+                propPrice.Append(fontPrice);
+                propPrice.Append(sizePrice);
+                runPrice.PrependChild<RunProperties>(propPrice);
+
+                Run runCode = new Run(new Text(SelectedTicketholder.ID+SelectedTicketholder.Dag.ID+SelectedTicketholder.Dag.Price.ToString()+"0000"));
+                RunProperties propCode = new RunProperties();
+                RunFonts fontCode = new RunFonts() { Ascii = "Free 3 of 9", HighAnsi = "Free 3 of 9" };
+                FontSize sizeCode = new FontSize() { Val = "144" };
+                propCode.Append(fontCode);
+                propCode.Append(sizeCode);
+                runCode.PrependChild<RunProperties>(propCode);
+
+                bookmarks["Naam"].Parent.InsertAfter<Run>(runName, bookmarks["Naam"]);
+                bookmarks["Type"].Parent.InsertAfter<Run>(runType, bookmarks["Type"]);
+                bookmarks["Prijs"].Parent.InsertAfter<Run>(runPrice, bookmarks["Prijs"]);
+                bookmarks["Code"].Parent.InsertAfter<Run>(runCode, bookmarks["Code"]);
+
+                newdoc.Close();
                 MessageBox.Show("Succesvol geëxporteerd naar Word");
             }
             catch(Exception ex)
