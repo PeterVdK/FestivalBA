@@ -21,9 +21,9 @@ namespace MVVMFestivalProject.model
             set { id = value; }
         }
         
-        private DateTime date;
+        private DateTime? date;
         [Required(ErrorMessage = "De datum is verplicht")]
-        public DateTime Date
+        public DateTime? Date
         {
             get { return date; }
             set { date = value; }
@@ -65,7 +65,7 @@ namespace MVVMFestivalProject.model
 
         public override string ToString()
         {
-            return Date.ToString("dddd dd/MM");
+            return Date != null ? Date.Value.ToString("dddd dd MMMM") : "n/a";
         }
 
         public string this[string columnName]
@@ -92,8 +92,12 @@ namespace MVVMFestivalProject.model
 
         public string Error
         {
-            get { return "Object not valid"; }
+            get { return null; }
         }
 
+        public bool IsValid()
+        {
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
+        }
     }
 }

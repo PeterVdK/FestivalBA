@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -19,7 +20,7 @@ namespace MVVMFestivalProject.viewmodel
     {
         public string Name
         {
-            get { return "Line-up"; }
+            get { return "Line Up"; }
         }
         public LineUpVM()
         {
@@ -28,6 +29,10 @@ namespace MVVMFestivalProject.viewmodel
             _genreList = Genre.GetGenres();
             _stageList = Stage.GetStages();
             _bandList = Band.GetBands();
+            NewStage = new Stage();
+            NewDate = new Festival();
+            NewBand = new Band();
+            SelectedLineUp = new LineUp();
         }
 
         private ObservableCollection<LineUp> _lineUpList;
@@ -54,6 +59,12 @@ namespace MVVMFestivalProject.viewmodel
         {
             get { return _selectedFestivaldate; }
             set { _selectedFestivaldate = value; OnPropertyChanged("SelectedFestivaldate"); }
+        }
+        private Festival _newDate;
+        public Festival NewDate
+        {
+            get { return _newDate; }
+            set { _newDate = value; OnPropertyChanged("NewDate"); }
         }
 
         private ObservableCollection<Genre> _genreList;
@@ -82,6 +93,13 @@ namespace MVVMFestivalProject.viewmodel
             set { _selectedStage = value; OnPropertyChanged("SelectedStage"); }
         }
 
+        private Stage _newStage;
+        public Stage NewStage
+        {
+            get { return _newStage; }
+            set { _newStage = value; OnPropertyChanged("NewStage"); }
+        }
+
         private ObservableCollection<Band> _bandList;
         public ObservableCollection<Band> BandList
         {
@@ -94,39 +112,219 @@ namespace MVVMFestivalProject.viewmodel
             get { return _selectedBand; }
             set { _selectedBand = value; OnPropertyChanged("SelectedBand"); }
         }
+        private Band _newBand;
+        public Band NewBand
+        {
+            get { return _newBand; }
+            set { _newBand = value; OnPropertyChanged("NewBand"); }
+        }
+
+        public ICommand SaveBandCommand
+        {
+            get { return new RelayCommand(SaveBand,NewBand.IsValid); }
+        }
 
         public ICommand SaveStageCommand
         {
-            get { return new RelayCommand<Stage>(SaveStage); }
+            get { return new RelayCommand(SaveStage, NewStage.IsValid); }
         }
 
         public ICommand SaveDateCommand
         {
-            get { return new RelayCommand<Festival>(SaveDate); }
+            get { return new RelayCommand(SaveDate,NewDate.IsValid); }
         }
 
-        public ICommand ImageSourceNullCommand
+        public ICommand FilterCommand
         {
-            get { return new RelayCommand<object>(ImageSourceNull); }
+            get { return new RelayCommand(Filter); }
         }
 
-        public void SaveDate(Festival date)
+        public void Filter()
         {
-            string sql = "INSERT INTO Festivaldagen (Date) VALUES ('@Datum');";
-            DbParameter par = Database.AddParameter("@Datum", date);
-            Database.ModifyData(sql, par);
+            if (SelectedFestivaldate == null && SelectedStage != null)
+            {
+                LineUpList = LineUp.GetLineUpByStageID(SelectedStage.ID);
+            }
+            else if (SelectedFestivaldate != null && SelectedStage == null)
+            {
+                LineUpList = LineUp.GetLineUpByDateID(SelectedFestivaldate.ID);
+            }
+            else if (SelectedFestivaldate != null && SelectedStage != null)
+            {
+                LineUpList = LineUp.GetLineUpByStageAndDateID(SelectedStage.ID, SelectedFestivaldate.ID);
+            }
         }
 
-        public void SaveStage(Stage stage)
+        public ICommand RemoveFiltersCommand
         {
-            string sql = "INSERT INTO Stages (Name) VALUES ('@Stage');";
-            DbParameter par = Database.AddParameter("@Stage", stage);
-            Database.ModifyData(sql, par);
+            get { return new RelayCommand(RemoveFilters); }
         }
 
-        public void ImageSourceNull(object sender)
+        public void RemoveFilters()
         {
-            ((Image)sender).Source = new BitmapImage(new Uri("NoImage.png", UriKind.Relative));
+            SelectedStage = null;
+            SelectedFestivaldate = null;
+            LineUpList = LineUp.GetLineUp();
+        }
+
+        public void SaveBand()
+        {
+            try
+            {
+                string sql = "INSERT INTO Bands(Name,Picture,Description,Facebook,Twitter) VALUES (@Name,@Picture,@Description,@Facebook,@Twitter);";
+                DbParameter parName = Database.AddParameter("@Name", NewBand.Name);
+                DbParameter parPicture = Database.AddParameter("@Picture", NewBand.Picture);
+                DbParameter parDescription = Database.AddParameter("@Description", NewBand.Description);
+                DbParameter parFacebook = Database.AddParameter("@Facebook", NewBand.Facebook);
+                DbParameter parTwitter = Database.AddParameter("@Twitter", NewBand.Twitter);
+                Database.ModifyData(sql, parName, parPicture, parDescription, parFacebook, parTwitter);
+                BandList.Add(NewBand);
+                MessageBox.Show("Artiest werd succesvol toegevoegd");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public void SaveDate()
+        {
+            try
+            {
+                string sql = "INSERT INTO Festivaldagen(Date) VALUES (@Datum);";
+                DbParameter par = Database.AddParameter("@Datum", NewDate.Date);
+                Database.ModifyData(sql, par);
+                FestivaldateList.Add(NewDate);
+                MessageBox.Show("Datum werd succesvol toegevoegd");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public void SaveStage()
+        {
+            try
+            {
+                string sql = "INSERT INTO Stages(Name) VALUES (@Stage)";
+                DbParameter par = Database.AddParameter("@Stage", NewStage.Name);
+                Database.ModifyData(sql, par);
+                StageList.Add(NewStage);
+                MessageBox.Show("Podium werd succesvol toegevoegd");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public ICommand DeleteLineUpCommand
+        {
+            get { return new RelayCommand(DeleteLineUp); }
+        }
+        public void DeleteLineUp()
+        {
+            if (SelectedLineUp != null)
+            {
+                try
+                {
+                    string sql = "DELETE FROM LineUp WHERE ID=@id";
+                    DbParameter par = Database.AddParameter("@id", SelectedLineUp.ID);
+                    Database.ModifyData(sql, par);
+                    LineUpList.Remove(SelectedLineUp);
+                    MessageBox.Show("Line up werd succesvol verwijderd");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        public ICommand DeleteLineUpArtiestCommand
+        {
+            get { return new RelayCommand(DeleteLineUpArtiest); }
+        }
+        public void DeleteLineUpArtiest()
+        {
+            if (SelectedLineUp != null)
+            {
+                try
+                {
+                    string sql = "DELETE FROM LineUp WHERE ID=@id";
+                    DbParameter parID = Database.AddParameter("@id", SelectedLineUp.ID);
+                    Database.ModifyData(sql, parID);
+
+                    string sql2 = "DELETE FROM Bands WHERE ID=@id2";
+                    DbParameter parID2 = Database.AddParameter("@id2", SelectedLineUp.Band.ID);
+                    Database.ModifyData(sql2, parID2);
+
+                    string sql3 = "DELETE FROM Band_Genre WHERE ID=@bandid";
+                    DbParameter parBandID = Database.AddParameter("@ibandid", SelectedLineUp.Band.ID);
+                    Database.ModifyData(sql3, parBandID);
+                    LineUpList.Remove(SelectedLineUp);
+                    MessageBox.Show("Line up en artiest werden succesvol verwijderd");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        public ICommand SaveLineUpCommand
+        {
+            get { return new RelayCommand(SaveLineUp); }
+        }
+        public void SaveLineUp()
+        {
+            string sql = "INSERT INTO LineUp(Start,Finish,BandID,StageID,FestivaldagID) VALUES(@Start,@Finish,@BandID,@StageID,@FestivaldagID)";
+            DbParameter parStart = Database.AddParameter("@Start", SelectedLineUp.From);
+            DbParameter parFinish = Database.AddParameter("@Finish", SelectedLineUp.Until);
+            DbParameter parBandID = Database.AddParameter("@BandID", SelectedLineUp.Band.ID);
+            DbParameter parStageID = Database.AddParameter("@StageID", SelectedLineUp.Stage.ID);
+            DbParameter parDateID = Database.AddParameter("@FestivaldagID", SelectedLineUp.Date.ID);
+            Database.ModifyData(sql, parStart, parFinish,parBandID, parStageID, parDateID);
+            LineUpList.Add(SelectedLineUp);
+            MessageBox.Show("Artiest werd succesvol toegevoegd aan de line up");
+        }
+
+        public ICommand EditLineUpCommand
+        {
+            get { return new RelayCommand(EditLineUp); }
+        }
+        public void EditLineUp()
+        {
+            string sql = "UPDATE LineUp ";
+            sql += "SET Start=@Start,Finish=@Finish,BandID=@BandID,StageID=@StageID,FestivaldagID=@FestivaldagID ";
+            sql += "WHERE ID=@ID";
+            DbParameter parID = Database.AddParameter("@ID", SelectedLineUp.ID);
+            DbParameter parStart = Database.AddParameter("@Start", SelectedLineUp.From);
+            DbParameter parFinish = Database.AddParameter("@Finish", SelectedLineUp.Until);
+            DbParameter parBandID = Database.AddParameter("@BandID", SelectedLineUp.Band.ID);
+            DbParameter parStageID = Database.AddParameter("@StageID", SelectedLineUp.Stage.ID);
+            DbParameter parDateID = Database.AddParameter("@FestivaldagID", SelectedLineUp.Date.ID);
+
+            Database.ModifyData(sql,parID, parStart, parFinish, parBandID, parStageID, parDateID);
+            MessageBox.Show("Line up werd succesvol bewerkt");
+        }
+
+        public ICommand NewLineUpCommand
+        {
+            get { return new RelayCommand(NewLineUp); }
+        }
+
+        public void NewLineUp()
+        {
+            try
+            {
+                LineUp NewLineUp = new LineUp();
+                SelectedLineUp = NewLineUp;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

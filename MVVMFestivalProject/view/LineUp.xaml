@@ -3,20 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:cmd="http://www.galasoft.ch/mvvmlight"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1500">
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Grid>
             <Image Opacity="0.2" Stretch="Fill"  Source="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\images\festival.jpg" Grid.ColumnSpan="100" Grid.RowSpan="100"></Image>
             <Label Margin="0,0,0,29" Grid.RowSpan="2">Dag</Label>
-        <DatePicker x:Name="dtpDag" Grid.Column="1" Margin="3,3,3,2" Background="White"></DatePicker>
-        <Button x:Name="btnDag" Grid.Column="2" Margin="3,3,3,2">Dag toevoegen</Button>
+            <DatePicker x:Name="dtpDag" Grid.Column="1" Margin="3,3,3,2" Background="White" SelectedDate="{Binding NewDate.Date,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource DatePickerError}"></DatePicker>
+        <Button x:Name="btnDag" Grid.Column="2" Margin="3,3,3,2" Command="{Binding SaveDateCommand}">Dag toevoegen</Button>
         <Label Grid.Row="1">Podium</Label>
-        <TextBox x:Name="txtPodium" Margin="3" Grid.Row="1" Grid.Column="1"></TextBox>
-        <Button x:Name="btnPodium" Grid.Column="2" Grid.Row="1" Margin="3">Podium toevoegen</Button>
-            <ComboBox x:Name="cboDagen" Grid.Row="2" Margin="3" Grid.ColumnSpan="3" ItemsSource="{Binding FestivaldateList}" SelectedItem="{Binding SelectedFestivaldate}"></ComboBox>
-            <ComboBox x:Name="cboPodia" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Margin="3" ItemsSource="{Binding StageList}" SelectedItem="{Binding SelectedStage}"></ComboBox>
-            <ListView Grid.Row="3" Grid.ColumnSpan="5" Margin="3" ItemsSource="{Binding LineUpList}" SelectedItem="{Binding SelectedLineUp}">
+            <TextBox x:Name="txtPodium" Margin="3" Grid.Row="1" Grid.Column="1" Text="{Binding NewStage.Name,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+        <Button x:Name="btnPodium" Grid.Column="2" Grid.Row="1" Margin="3" Command="{Binding SaveStageCommand}">Podium toevoegen</Button>
+            <ComboBox x:Name="cboDagen" Grid.Row="2" Margin="3" Grid.ColumnSpan="3" ItemsSource="{Binding FestivaldateList}" SelectedItem="{Binding SelectedFestivaldate}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <cmd:EventToCommand Command="{Binding FilterCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <ComboBox x:Name="cboPodia" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Margin="3" ItemsSource="{Binding StageList}" SelectedItem="{Binding SelectedStage}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <cmd:EventToCommand Command="{Binding FilterCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <Button Margin="3" Grid.Row="2" Grid.Column="5" Width="30" HorizontalAlignment="Left" Command="{Binding RemoveFiltersCommand}">X</Button>
+            <ListView x:Name="lsvLineUp" Grid.Row="3" Grid.RowSpan="2" Grid.ColumnSpan="5" Margin="3" ItemsSource="{Binding LineUpList}" SelectedItem="{Binding SelectedLineUp}" SelectionChanged="lsvLineUp_SelectionChanged">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Dag" DisplayMemberBinding="{Binding Date}"/>
@@ -27,67 +42,51 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-        <Label Grid.Row="5" Grid.Column="3" HorizontalAlignment="Left" FontWeight="Bold">Genre(s)</Label>
-            <ListBox x:Name="lblGenre" Grid.Column="4" Grid.Row="5" Grid.RowSpan="4" ItemsSource="{Binding SelectedLineUp.Band.Genres}" Background="{x:Null}" BorderBrush="{x:Null}"></ListBox>
-            <Button x:Name="btnFacebook" Grid.Row="5" Grid.ColumnSpan="3" Margin="3" BorderThickness="0">
+        <Label Grid.Row="6" Grid.Column="3" HorizontalAlignment="Left" FontWeight="Bold">Genre(s)</Label>
+            <ListBox x:Name="lstGenre" Grid.Column="4" Grid.Row="6" Grid.RowSpan="4" ItemsSource="{Binding SelectedLineUp.Band.Genres}" Background="{x:Null}" BorderBrush="{x:Null}"></ListBox>
+            <Button x:Name="btnFacebook" Grid.Row="6" Grid.ColumnSpan="3" Margin="3" BorderThickness="0">
             <Hyperlink NavigateUri="{Binding SelectedLineUp.Band.Facebook}" RequestNavigate="Hyperlink_RequestNavigate_1">
                 <Image Stretch="Fill" Source="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\images\Facebook.png"></Image>
             </Hyperlink>
         </Button>
-        <Button x:Name="btnTwitter" Grid.Row="6" Grid.ColumnSpan="3" Margin="3" BorderThickness="0">
+        <Button x:Name="btnTwitter" Grid.Row="7" Grid.ColumnSpan="3" Margin="3" BorderThickness="0">
             <Hyperlink NavigateUri="{Binding SelectedLineUp.Band.Twitter}" RequestNavigate="Hyperlink_RequestNavigate_1">
                 <Image  Stretch="Fill" Source="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\images\Twitter.png"></Image>
             </Hyperlink>
         </Button>
-            <Image x:Name="imgArtiest" Grid.Row="4" Grid.ColumnSpan="3" Stretch="Fill" Margin="3" Source="{Binding SelectedLineUp.Band.Picture}"/>
-            <ScrollViewer Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Margin="3" VerticalScrollBarVisibility="Auto">
+            <Image x:Name="imgArtiest" Grid.Row="5" Grid.ColumnSpan="3" Stretch="Fill" Margin="3" Source="{Binding SelectedLineUp.Band.Picture}"/>
+        <ScrollViewer Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Margin="3" VerticalScrollBarVisibility="Auto">
             <TextBlock x:Name="txbOmschrijving" Padding="3" TextWrapping="Wrap" Text="{Binding SelectedLineUp.Band.Description}"/>
         </ScrollViewer>
-        <Button Grid.Row="7" Grid.ColumnSpan="3" Margin="3">Verwijderen</Button>
-        <GroupBox Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="10" Margin="10,3,3,3" Header="Artiest toevoegen" BorderBrush="Black">
+        <Button x:Name="btnNieuw" Grid.Row="8" Grid.ColumnSpan="3" Margin="3" Command="{Binding NewLineUpCommand}" Click="btnNieuw_Click">Nieuw</Button>
+        <Button x:Name="btnVerwijderen" Grid.Row="9" IsEnabled="False" Grid.ColumnSpan="3" Margin="3" Command="{Binding DeleteLineUpCommand}">Line up verwijderen</Button>
+        <Button x:Name="btnAllesVerwijderen" Grid.Row="10" IsEnabled="False" Grid.ColumnSpan="3" Margin="3" Command="{Binding DeleteLineUpArtiestCommand}">Line up verwijderen (incl. artiest)</Button>
+        <GroupBox Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="5" Margin="10,3,3,3" Header="Artiest toevoegen" BorderBrush="Black">
                 <Grid Margin="3">
-                    <Label Grid.ColumnSpan="2">Artiest*</Label>
-                    <TextBox x:Name="txtArtiest" Grid.Column="1" Margin="3" Text="{Binding SelectedLineUp.Band.Name}"></TextBox>
-                    <Label Grid.Row="1">Genre(s)*</Label>
-                    <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="5">
-                    <ListBox x:Name="lstGenres" SelectionMode="Multiple" ItemsSource="{Binding GenreList}" SelectedItem="{Binding SelectedGenre}"></ListBox>
+                    <Label Grid.ColumnSpan="2">Naam*</Label>
+                    <TextBox x:Name="txtArtiest" Grid.Column="1" Margin="3" Text="{Binding NewBand.Name,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+                    <Label Grid.Row="1" Margin="3">Foto*</Label>
+                    <TextBox x:Name="txtFoto" Grid.Row="1" Grid.Column="1" Margin="3" Width="370" HorizontalAlignment="Left" Text="{Binding NewBand.Picture,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+                    <Button Grid.Row="1" Grid.Column="1" Margin="3" Width="25" HorizontalAlignment="Right" Click="Button_Click_1">...</Button>
+                    <Label Grid.Row="2" Margin="3">Omschrijving*</Label>
+                    <TextBox x:Name="txtOmschrijving" Grid.Row="2" Grid.Column="1" Margin="3,4,3,4" Text="{Binding NewBand.Description,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+                    <Label Grid.Row="3" Margin="3">Facebook*</Label>
+                    <TextBox x:Name="txtFacebook" Grid.Row="3" Grid.Column="1" Margin="3" Text="{Binding NewBand.Facebook,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+                    <Label Grid.Row="4" Margin="3">Twitter*</Label>
+                    <TextBox x:Name="txtTwitter" Grid.Row="4" Grid.Column="1" Margin="3" Text="{Binding NewBand.Twitter,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+                    <Label Grid.Row="5">Genre(s)*</Label>
+                    <ScrollViewer Grid.Row="6" Grid.ColumnSpan="2" Margin="3">
+                        <ListBox x:Name="lstGenres" SelectionMode="Multiple" ItemsSource="{Binding GenreList}" SelectedItem="{Binding NewBand.Genres,UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="ID" SelectedValue="NewBand.Genres"></ListBox>
                     </ScrollViewer>
-                    <Label Grid.Row="7">Dag*</Label>
-                    <ComboBox x:Name="cboDag" Grid.Row="7" Grid.Column="1" Margin="3" ItemsSource="{Binding FestivaldateList}" SelectedItem="{Binding SelectedLineUp.Date}" SelectedValuePath="ID" SelectedValue="{Binding SelectedLineUp.Date.ID}" DisplayMemberPath="Date"></ComboBox>
-                    <Label Grid.Row="8">Podium*</Label>
-                    <ComboBox x:Name="cboPodium" Grid.Row="8" Grid.Column="1" Margin="3" ItemsSource="{Binding StageList}" SelectedItem="{Binding SelectedLineUp.Stage}" SelectedValuePath="ID" SelectedValue="{Binding SelectedLineUp.Stage.ID}" DisplayMemberPath="Name"></ComboBox>
-                    <Label Grid.Row="9">Starttijd*</Label>
-                    <TextBox x:Name="txtStarttijd" Grid.Row="9" Grid.Column="1" Margin="3" Text="{Binding SelectedLineUp.From}"></TextBox>
-                    <Label Grid.Row="10" Margin="3">Eindtijd*</Label>
-                    <TextBox x:Name="txtEindtijd" Grid.Row="10" Grid.Column="1" Margin="3,4,3,4" Text="{Binding SelectedLineUp.Until}"></TextBox>
-                    <Label Grid.Row="11" Margin="3">Foto</Label>
-                    <TextBox x:Name="txtFoto" Grid.Row="11" Grid.Column="1" Margin="3" Width="370" HorizontalAlignment="Left" Text="{Binding SelectedLineUp.Band.Picture}"></TextBox>
-                    <Button Grid.Row="11" Grid.Column="1" Margin="3" Width="25" HorizontalAlignment="Right" Click="Button_Click_1">...</Button>
-                    <Label Grid.Row="12" Margin="3">Omschrijving*</Label>
-                    <TextBox x:Name="txtOmschrijving" Grid.Row="12" Grid.Column="1" Margin="3,4,3,4" Text="{Binding SelectedLineUp.Band.Description}"></TextBox>
-                    <Label Grid.Row="13" Margin="3">Facebook</Label>
-                    <TextBox x:Name="txtFacebook" Grid.Row="13" Grid.Column="1" Margin="3" Text="{Binding SelectedLineUp.Band.Facebook}"></TextBox>
-                    <Label Grid.Row="14" Margin="3">Twitter</Label>
-                    <TextBox x:Name="txtTwitter" Grid.Row="14" Grid.Column="1" Margin="3" Text="{Binding SelectedLineUp.Band.Twitter}"></TextBox>
-                    <Button x:Name="btnOpslaan" Grid.Row="15" Margin="3" Grid.ColumnSpan="2">Toevoegen</Button>
-                    <Button x:Name="btnBewerken" Grid.Row="16" Margin="3" Grid.ColumnSpan="2">Bewerken</Button>
+                    <Button Grid.Row="7" Grid.ColumnSpan="2" Margin="3" Command="{Binding SaveBandCommand}">Toevoegen</Button>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="32"/>
-                        <RowDefinition Height="30"/>
                         <RowDefinition Height="32"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -95,6 +94,35 @@
                         <ColumnDefinition Width="400"/>
                     </Grid.ColumnDefinitions>
             </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="4" Grid.Row="5" Margin="10,30,3,3" Header="Artiest toewijzen aan line up" BorderBrush="Black">
+                <Grid>
+                    <Label>Artiest*</Label>
+                    <ComboBox x:Name="cboArtiest" Grid.Column="1" Margin="3" ItemsSource="{Binding BandList}" SelectedItem="{Binding SelectedLineUp.Band,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource ComboBoxError}" SelectedValuePath="ID" SelectedValue="{Binding SelectedLineUp.Band.ID}" DisplayMemberPath="Name"></ComboBox>
+                    <Label Grid.Row="1">Dag*</Label>
+                    <ComboBox x:Name="cboDag" Grid.Column="1" Grid.Row="1" Margin="3" ItemsSource="{Binding FestivaldateList}" SelectedItem="{Binding SelectedLineUp.Date,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource ComboBoxError}" SelectedValuePath="ID" SelectedValue="{Binding SelectedLineUp.Date.ID}" DisplayMemberPath="Date"></ComboBox>
+                    <Label Grid.Row="2">Podium*</Label>
+                    <ComboBox x:Name="cboPodium" Grid.Row="2" Grid.Column="1" Margin="3" ItemsSource="{Binding StageList}" SelectedItem="{Binding SelectedLineUp.Stage,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource ComboBoxError}" SelectedValuePath="ID" SelectedValue="{Binding SelectedLineUp.Stage.ID}" DisplayMemberPath="Name"></ComboBox>
+                    <Label Grid.Row="3">Starttijd*</Label>
+                    <TextBox x:Name="txtStarttijd" Grid.Row="3" Grid.Column="3" Margin="3" Text="{Binding SelectedLineUp.From,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+                    <Label Grid.Row="4" Margin="3">Eindtijd*</Label>
+                    <TextBox x:Name="txtEindtijd" Grid.Row="4" Grid.Column="1" Margin="4" Text="{Binding SelectedLineUp.Until,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+                    <Button x:Name="btnToewijzen" Grid.Row="5" Grid.ColumnSpan="3" Margin="3" Command="{Binding SaveLineUpCommand}">Toewijzen</Button>
+                    <Button x:Name="btnBewerken" Grid.Row="6" Grid.ColumnSpan="3" Margin="3" IsEnabled="False" Command="{Binding EditLineUpCommand}">Bewerken</Button>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="32"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="400"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
         </GroupBox>
             <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"/>
@@ -110,8 +138,11 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="250"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="150"/>
             <RowDefinition Height="180"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>

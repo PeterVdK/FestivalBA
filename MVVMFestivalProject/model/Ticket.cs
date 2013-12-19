@@ -24,6 +24,7 @@ namespace MVVMFestivalProject.model
         private string name;
         [Required(ErrorMessage = "De naam is verplicht")]
         [StringLength(50, ErrorMessage = "De naam mag maximaal 50 karakters bevatten")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,100}$", ErrorMessage = "Geen speciale tekens toegelaten")]
         public string Name
         {
             get { return name; }
@@ -33,6 +34,7 @@ namespace MVVMFestivalProject.model
         private string firstName;
         [Required(ErrorMessage = "De voornaam is verplicht")]
         [StringLength(50, ErrorMessage = "De voornaam mag maximaal 50 karakters bevatten")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,100}$", ErrorMessage = "Geen speciale tekens toegelaten")]
         public string FirstName
         {
             get { return firstName; }
@@ -48,17 +50,17 @@ namespace MVVMFestivalProject.model
             set { ticketholderEmail = value; }
         }
 
-        private TicketType ticketType;
+        private TicketType dag;
         [Required(ErrorMessage = "Het type is verplicht")]
-        public TicketType TicketType
+        public TicketType Dag
         {
-            get { return ticketType; }
-            set { ticketType = value; }
+            get { return dag; }
+            set { dag = value; }
         }
 
         private int amount;
         [Required(ErrorMessage = "Het aantal is verplicht")]
-        [Range(0, 10, ErrorMessage = "Het aantal moet tussen 0-10 liggen")]
+        [Range(1, 10, ErrorMessage = "Het aantal moet tussen 1 en 10 liggen")]
         public int Amount
         {
             get { return amount; }
@@ -87,7 +89,7 @@ namespace MVVMFestivalProject.model
                 FirstName = record["FirstName"].ToString(),
                 TicketholderEmail = record["Email"].ToString(),
                 Amount = (int)record["Amount"],
-                TicketType = TicketType.GetTicketType((int)record["ID"]) as TicketType,
+                Dag = TicketType.GetTicketType((int)record["TickettypeID"]) as TicketType
             };
         }
 
@@ -115,7 +117,7 @@ namespace MVVMFestivalProject.model
 
         public string Error
         {
-            get { return "Object not valid"; }
+            get { return null; }
         }
     }
 }

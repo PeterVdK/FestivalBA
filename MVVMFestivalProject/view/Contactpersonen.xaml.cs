@@ -24,5 +24,22 @@ namespace MVVMFestivalProject.view
         {
             InitializeComponent();
         }
+
+        private void cboContactpersonen_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cboContactpersonen.SelectedIndex > -1)
+            {
+                btnOpslaan.IsEnabled = false;
+                btnBewerken.IsEnabled = true;
+                btnVerwijderen.IsEnabled = true;
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            btnOpslaan.IsEnabled = true;
+            btnBewerken.IsEnabled = false;
+            btnVerwijderen.IsEnabled = false;
+        }
     }
 }

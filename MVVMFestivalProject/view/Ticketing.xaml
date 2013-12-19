@@ -7,16 +7,16 @@
              d:DesignHeight="600" d:DesignWidth="600">
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
     <Grid>
-            <Image Opacity="0.2" Stretch="Fill"  Source="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\images\festival.jpg" Grid.ColumnSpan="5" Grid.RowSpan="14"></Image>
+            <Image Opacity="0.2" Stretch="Fill"  Source="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\images\festival.jpg" Grid.ColumnSpan="5" Grid.RowSpan="16"></Image>
             <GroupBox Grid.ColumnSpan="2" Grid.RowSpan="5" BorderThickness="0">
                 <Grid>
                     <Label>Type</Label>
                     <Label Grid.Row="1">Aantal</Label>
                     <Label Grid.Row="2">Prijs</Label>
-                    <TextBox x:Name="cboTicketType" Grid.Column="1" Margin="3"></TextBox>
-                    <TextBox x:Name="txtAantalTickets" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
-                    <TextBox x:Name="txtPrijs"  Grid.Column="1" Grid.Row="2" Margin="3"></TextBox>
-                    <Button x:Name="btnOpslaan" Grid.Row="3" Margin="3" Grid.ColumnSpan="2">Opslaan</Button>
+                    <TextBox x:Name="cboTicketType" Grid.Column="1" Margin="3" Text="{Binding NewTicketType.Name,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+                    <TextBox x:Name="txtAantalTickets" Grid.Column="1" Grid.Row="1" Margin="3" Text="{Binding NewTicketType.AvailableTickets,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+                    <TextBox x:Name="txtPrijs"  Grid.Column="1" Grid.Row="2" Margin="3" Text="{Binding NewTicketType.Price,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+                    <Button x:Name="btnOpslaan" Grid.Row="3" Margin="3" Grid.ColumnSpan="2" Command="{Binding SaveTicketTypeCommand}">Opslaan</Button>
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50"/>
@@ -31,13 +31,13 @@
                 </Grid>
         </GroupBox>
         <Border BorderBrush="Black" BorderThickness="1" Grid.Row="4" Grid.ColumnSpan="5" Height="1" VerticalAlignment="Bottom" Margin="0,0,0,20"></Border>
-            <ListView Margin="3" Grid.Row="5" Grid.ColumnSpan="3" Grid.RowSpan="9" ItemsSource="{Binding TicketholderList}" SelectedItem="{Binding SelectedTicketholder}">
+            <ListView x:Name="lsvReservaties" Margin="3" Grid.Row="5" Grid.ColumnSpan="3" Grid.RowSpan="10" ItemsSource="{Binding TicketholderList}" SelectedItem="{Binding SelectedTicketholder}" SelectionChanged="lsvReservaties_SelectionChanged">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Naam" DisplayMemberBinding="{Binding Name}"/>
                         <GridViewColumn Header="Voornaam" DisplayMemberBinding="{Binding FirstName}"/>
                         <GridViewColumn Header="E-mail" DisplayMemberBinding="{Binding TicketholderEmail}"/>
-                        <GridViewColumn Header="Type" DisplayMemberBinding="{Binding TicketType}"/>
+                        <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Dag}"/>
                         <GridViewColumn Header="Aantal" DisplayMemberBinding="{Binding Amount}"/>
                     </GridView>
                 </ListView.View>
@@ -47,14 +47,20 @@
         <Label Grid.Row="8" Grid.Column="3">Type*</Label>
         <Label Grid.Row="7" Grid.Column="3">E-mail*</Label>
         <Label Grid.Row="10" Grid.Column="3">Aantal*</Label>
-        <TextBox x:Name="txtNaam" Grid.Column="4" Grid.Row="5" Margin="3" Text="{Binding SelectedTicketholder.Name}"></TextBox>
-        <TextBox x:Name="txtVoornaam"  Grid.Column="4" Grid.Row="6" Margin="3" Text="{Binding SelectedTicketholder.FirstName}"></TextBox>
-        <ComboBox x:Name="cboType" Grid.Column="4" Grid.Row="8" Margin="3" ItemsSource="{Binding TicketTypeList}" SelectedItem="{Binding SelectedTicketholder.TicketType}" SelectedValuePath="ID" SelectedValue="{Binding SelectedTicketholder.TicketType.ID}" DisplayMemberPath="Name"></ComboBox>
-        <Label Grid.Column="4" Grid.Row="9" Content="{Binding SelectedTicketholder.TicketType.AvailableTickets}" FontWeight="Bold"></Label>
-        <TextBox x:Name="txtEmail"  Grid.Column="4" Grid.Row="7" Margin="3" Text="{Binding SelectedTicketholder.TicketholderEmail}"></TextBox>
-        <TextBox x:Name="txtAantal"  Grid.Column="4" Grid.Row="10" Margin="3" Text="{Binding SelectedTicketholder.Amount}"></TextBox>
-            <Button x:Name="btnToevoegen" Grid.Column="3" Grid.Row="11" Grid.ColumnSpan="2" Margin="3" Command="{Binding SaveTicketholderCommand}">Toevoegen</Button>
-            <Button x:Name="btnBewerken" Grid.Column="3" Grid.Row="12" Grid.ColumnSpan="2" Margin="3">Bewerken</Button>
+            <TextBox x:Name="txtNaam" Grid.Column="4" Grid.Row="5" Margin="3" Text="{Binding SelectedTicketholder.Name,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+            <TextBox x:Name="txtVoornaam"  Grid.Column="4" Grid.Row="6" Margin="3" Text="{Binding SelectedTicketholder.FirstName,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+            <TextBox x:Name="txtEmail"  Grid.Column="4" Grid.Row="7" Margin="3" Text="{Binding SelectedTicketholder.TicketholderEmail, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+            <ComboBox x:Name="cboType" Grid.Column="4" Grid.Row="8" Margin="3" ItemsSource="{Binding TicketTypeList}" SelectedItem="{Binding SelectedTicketholder.Dag,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" SelectedValuePath="ID" SelectedValue="{Binding SelectedTicketholder.Dag.ID}" DisplayMemberPath="Name" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource ComboBoxError}" SelectionChanged="cboType_SelectionChanged"></ComboBox>
+            <TextBlock x:Name="txbOver" Grid.Column="4" Grid.Row="9" Margin="3" FontWeight="Bold" Visibility="Hidden">
+                <TextBlock>Nog </TextBlock>
+                <TextBlock Text="{Binding SelectedTicketholder.Dag.AvailableTickets,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                <TextBlock> tickets over</TextBlock>
+            </TextBlock>
+            <TextBox x:Name="txtAantal"  Grid.Column="4" Grid.Row="10" Margin="3" Text="{Binding SelectedTicketholder.Amount,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+            <Button x:Name="btnNieuw" Grid.Column="3" Grid.Row="11" Grid.ColumnSpan="2" Margin="3" Command="{Binding NewTicketholderCommand}" Click="btnNieuw_Click">Nieuw</Button>
+            <Button x:Name="btnToevoegen" Grid.Column="3" Grid.Row="12" Grid.ColumnSpan="2" Margin="3" Command="{Binding SaveTicketholderCommand}">Toevoegen</Button>
+            <Button x:Name="btnBewerken" IsEnabled="False" Grid.Column="3" Grid.Row="13" Grid.ColumnSpan="2" Margin="3" Command="{Binding EditTicketholderCommand}">Bewerken</Button>
+            <Button x:Name="btnExporteren" IsEnabled="False" Grid.Row="15" Grid.ColumnSpan="3" Height="30" VerticalAlignment="Top" Margin="3" Command="{Binding ExportCommand}">Exporteren naar Word</Button>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -76,7 +82,9 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="90"/>
         </Grid.RowDefinitions>
     </Grid>
     </ScrollViewer>

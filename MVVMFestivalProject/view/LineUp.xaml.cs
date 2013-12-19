@@ -43,5 +43,24 @@ namespace MVVMFestivalProject.view
                 txtFoto.Text = sBestandsnaamAfbeelding;
             }
         }
+
+        private void btnNieuw_Click(object sender, RoutedEventArgs e)
+        {
+            btnToewijzen.IsEnabled = true;
+            btnBewerken.IsEnabled = false;
+            btnVerwijderen.IsEnabled = false;
+            btnAllesVerwijderen.IsEnabled = false;
+        }
+
+        private void lsvLineUp_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lsvLineUp.SelectedIndex > -1)
+            {
+                btnToewijzen.IsEnabled = false;
+                btnBewerken.IsEnabled = true;
+                btnVerwijderen.IsEnabled = true;
+                btnAllesVerwijderen.IsEnabled = true;
+            }
+        }
     }
 }

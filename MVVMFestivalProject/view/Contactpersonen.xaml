@@ -4,41 +4,42 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="600">
+             d:DesignHeight="600" d:DesignWidth="900">
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Grid>
-            <Image Opacity="0.2" Stretch="Fill"  Source="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\images\festival.jpg" Grid.ColumnSpan="5" Grid.RowSpan="9"></Image>
-            <ComboBox x:Name="cboContactpersonen" IsEditable="True" Margin="10,3,10,3" Grid.ColumnSpan="4" ItemsSource="{Binding ContactpersonList}" SelectedItem="{Binding SelectedContactperson}"></ComboBox>
-            <Button x:Name="btnBewerken" Margin="3" Grid.Column="1" Grid.Row="7" Width="94" HorizontalAlignment="Left">Bewerken</Button>
-            <Button x:Name="btnVerwijderen" Margin="3" Grid.Column="1" Grid.Row="7" Width="94" HorizontalAlignment="Right" Command="{Binding DeleteContactpersonCommand}">Verwijderen</Button>
+            <Image Opacity="0.2" Stretch="Fill"  Source="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\images\festival.jpg" Grid.ColumnSpan="6" Grid.RowSpan="9"></Image>
+            <ComboBox x:Name="cboContactpersonen" IsEditable="True" Margin="10,3,10,3" Grid.ColumnSpan="4" ItemsSource="{Binding ContactpersonList}" SelectedItem="{Binding SelectedContactperson}" SelectionChanged="cboContactpersonen_SelectionChanged"></ComboBox>
+            <Button x:Name="btnBewerken" IsEnabled="False" Margin="3,3,0,3" Grid.Column="1" Grid.Row="7" Width="94" HorizontalAlignment="Left" Command="{Binding EditContactpersonCommand}">Bewerken</Button>
+            <Button x:Name="btnVerwijderen" IsEnabled="False" Margin="0,3,3,3" Grid.Column="1" Grid.Row="7" Width="94" HorizontalAlignment="Right" Command="{Binding DeleteContactpersonCommand}">Verwijderen</Button>
+            <Button Grid.Column="3" Grid.Row="7" Margin="3" Width="94" HorizontalAlignment="Right" Command="{Binding NewContactpersonCommand}" Click="Button_Click_1">Nieuw</Button>
             <Label Grid.Row="1" Grid.ColumnSpan="2" Margin="10" FontWeight="Bold">Naam*</Label>
             <Label Grid.Row="2" Grid.ColumnSpan="2" Margin="10" FontWeight="Bold">Voornaam*</Label>
             <Label Grid.Row="3" Grid.ColumnSpan="2" Margin="10" FontWeight="Bold">Geslacht*</Label>
-            <Label Grid.Row="4" Grid.ColumnSpan="2" Margin="10" FontWeight="Bold">Geboortedatum</Label>
+            <Label Grid.Row="4" Grid.ColumnSpan="2" Margin="10" FontWeight="Bold">Geboortedatum*</Label>
             <Label Grid.Row="5" Grid.ColumnSpan="2" Margin="10" FontWeight="Bold">Bedrijf*</Label>
             <Label Grid.Row="6" Grid.ColumnSpan="2" Margin="10" FontWeight="Bold">Rol in festival*</Label>
-            <Button x:Name="btnOpslaan" Grid.Row="7" Margin="10,3,3,3" Command="{Binding SaveContactpersonCommand}">Toevoegen</Button>
-            <TextBox x:Name="txtNaam" Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding SelectedContactperson.Name,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></TextBox>
-            <TextBox x:Name="txtVoornaam" Grid.Row="2" Grid.Column="1" Margin="10" Text="{Binding SelectedContactperson.FirstName,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></TextBox>
-            <ComboBox x:Name="cboGeslacht" Grid.Row="3" Grid.Column="1" Margin="10" Text="{Binding SelectedContactperson.Gender,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+            <Button x:Name="btnOpslaan" Grid.Row="7" Margin="3" Command="{Binding SaveContactpersonCommand}">Toevoegen</Button>
+            <TextBox x:Name="txtNaam" Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding SelectedContactperson.Name,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+            <TextBox x:Name="txtVoornaam" Grid.Row="2" Grid.Column="1" Margin="10" Text="{Binding SelectedContactperson.FirstName,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+            <ComboBox x:Name="cboGeslacht" Grid.Row="3" Grid.Column="1" Margin="10" Text="{Binding SelectedContactperson.Gender,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource ComboBoxError}">
                 <ComboBoxItem>M</ComboBoxItem>
                 <ComboBoxItem>V</ComboBoxItem>
             </ComboBox>
-            <DatePicker x:Name="dtpGeboortedatum" Background="White" Grid.Row="4" Grid.Column="1" Margin="10" FirstDayOfWeek="Monday" SelectedDate="{Binding SelectedContactperson.BirthDate,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-            <TextBox x:Name="txtBedrijf" Grid.Row="5" Grid.Column="1" Margin="10" Text="{Binding SelectedContactperson.Company,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            <ComboBox x:Name="cboRol" Grid.Row="6" Grid.Column="1" Margin="10" ItemsSource="{Binding ContactpersonTypeList}" SelectedItem="{Binding SelectedContactperson.JobRole,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" SelectedValuePath="ID" SelectedValue="{Binding SelectedContactperson.JobRole.ID}" DisplayMemberPath="Name"></ComboBox>
+            <DatePicker x:Name="dtpGeboortedatum" Background="White" Grid.Row="4" Grid.Column="1" Margin="10" FirstDayOfWeek="Monday" SelectedDate="{Binding SelectedContactperson.BirthDate,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource DatePickerError}"/>
+            <TextBox x:Name="txtBedrijf" Grid.Row="5" Grid.Column="1" Margin="10" Text="{Binding SelectedContactperson.Company,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+            <ComboBox x:Name="cboRol" Grid.Row="6" Grid.Column="1" Margin="10" ItemsSource="{Binding ContactpersonTypeList}" SelectedItem="{Binding SelectedContactperson.JobRole,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" SelectedValuePath="ID" SelectedValue="{Binding SelectedContactperson.JobRole.ID}" DisplayMemberPath="Name" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource ComboBoxError}"></ComboBox>
             <Label Grid.Row="1" Grid.Column="2" FontWeight="Bold" Margin="10">Straat*</Label>
             <Label Grid.Row="2" Grid.Column="2" FontWeight="Bold" Margin="10">Huisnummer*</Label>
             <Label Grid.Row="3" Grid.Column="2" FontWeight="Bold" Margin="10">Gemeente*</Label>
-            <Label Grid.Row="4" Grid.Column="2" FontWeight="Bold" Margin="10">Tel.</Label>
-            <Label Grid.Row="5" Grid.Column="2" FontWeight="Bold" Margin="10">GSM</Label>
+            <Label Grid.Row="4" Grid.Column="2" FontWeight="Bold" Margin="10">Tel.*</Label>
+            <Label Grid.Row="5" Grid.Column="2" FontWeight="Bold" Margin="10">GSM*</Label>
             <Label Grid.Row="6" Grid.Column="2" FontWeight="Bold" Margin="10">E-mail*</Label>
-            <TextBox x:Name="txtStraat" Grid.Row="1" Grid.Column="3" Margin="10" Text="{Binding SelectedContactperson.Street,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></TextBox>
-            <TextBox x:Name="txtHuisnummer" Grid.Row="2" Grid.Column="3" Margin="10" Text="{Binding SelectedContactperson.Number,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></TextBox>
-            <TextBox x:Name="txtGemeente" Grid.Row="3" Grid.Column="3" Margin="10" Text="{Binding SelectedContactperson.City,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></TextBox>
-            <TextBox x:Name="txtTelefoon" Grid.Row="4" Grid.Column="3" Margin="10" Text="{Binding SelectedContactperson.Phone,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            <TextBox x:Name="txtGsm" Grid.Row="5" Grid.Column="3" Margin="10" Text="{Binding SelectedContactperson.Cellphone,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            <TextBox x:Name="txtEmail" Grid.Row="6" Grid.Column="3" Margin="10" Text="{Binding SelectedContactperson.Email,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></TextBox>
+            <TextBox x:Name="txtStraat" Grid.Row="1" Grid.Column="3" Margin="10" Text="{Binding SelectedContactperson.Street,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+            <TextBox x:Name="txtHuisnummer" Grid.Row="2" Grid.Column="3" Margin="10" Text="{Binding SelectedContactperson.Number,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+            <TextBox x:Name="txtGemeente" Grid.Row="3" Grid.Column="3" Margin="10" Text="{Binding SelectedContactperson.City,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+            <TextBox x:Name="txtTelefoon" Grid.Row="4" Grid.Column="3" Margin="10" Text="{Binding SelectedContactperson.Phone,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+            <TextBox x:Name="txtGsm" Grid.Row="5" Grid.Column="3" Margin="10" Text="{Binding SelectedContactperson.Cellphone,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
+            <TextBox x:Name="txtEmail" Grid.Row="6" Grid.Column="3" Margin="10" Text="{Binding SelectedContactperson.Email,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate }" Style="{StaticResource TextboxError}"></TextBox>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="110"/>

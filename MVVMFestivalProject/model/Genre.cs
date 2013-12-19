@@ -93,7 +93,7 @@ namespace MVVMFestivalProject.model
 
         public string Error
         {
-            get { return "Object not valid"; }
+            get { return null; }
         }
     }
 }

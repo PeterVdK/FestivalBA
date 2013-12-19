@@ -24,8 +24,8 @@ namespace MVVMFestivalProject.model
 
         private string name;
         [Required(ErrorMessage = "De naam is verplicht")]
-        [StringLength(50, ErrorMessage = "De naam mag maximaal 50 karakters bevatten")]
-        [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Er zijn geen speciale tekens toegelaten")]
+        [StringLength(50, ErrorMessage = "Maximaal 50 karakters")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,100}$", ErrorMessage = "Geen speciale tekens toegelaten")]
         public string Name
         {
             get { return name; }
@@ -34,24 +34,25 @@ namespace MVVMFestivalProject.model
 
         private string firstName;
         [Required(ErrorMessage = "De voornaam is verplicht")]
-        [StringLength(50, ErrorMessage = "De voornaam mag maximaal 50 karakters bevatten")]
-        [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Er zijn geen speciale tekens toegelaten")]
+        [StringLength(50, ErrorMessage = "Maximaal 50 karakters")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,100}$", ErrorMessage = "Geen speciale tekens toegelaten")]
         public string FirstName
         {
             get { return firstName; }
             set { firstName = value; }
         }
 
-        private char gender;
+        private string gender;
         [Required(ErrorMessage = "Het geslacht is verplicht")]
-        public char Gender
+        public string Gender
         {
             get { return gender; }
             set { gender = value; }
         }
 
-        private DateTime birthDate;
-        public DateTime BirthDate
+        private DateTime? birthDate;
+        [Required(ErrorMessage="De geboortedatum is verplicht")]
+        public DateTime? BirthDate
         {
             get { return birthDate; }
             set { birthDate = value; }
@@ -59,7 +60,7 @@ namespace MVVMFestivalProject.model
 
         private string company;
         [Required(ErrorMessage = "Het bedrijf is verplicht")]
-        [StringLength(50, ErrorMessage = "Het bedrijf mag maximaal 50 karakters bevatten")]
+        [StringLength(50, ErrorMessage = "Maximaal 50 karakters")]
         public string Company
         {
             get { return company; }
@@ -76,8 +77,8 @@ namespace MVVMFestivalProject.model
 
         private string street;
         [Required(ErrorMessage = "De straat is verplicht")]
-        [StringLength(50, ErrorMessage = "De straat mag maximaal 50 karakters bevatten")]
-        [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Er zijn geen speciale tekens toegelaten")]
+        [StringLength(50, ErrorMessage = "Maximaal 50 karakters")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,100}$", ErrorMessage = "Geen speciale tekens toegelaten")]
         public string Street
         {
             get { return street; }
@@ -95,8 +96,8 @@ namespace MVVMFestivalProject.model
 
         private string city;
         [Required(ErrorMessage = "De gemeente is verplicht")]
-        [StringLength(50, ErrorMessage = "De gemeente mag maximaal 50 karakters bevatten")]
-        [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Er zijn geen speciale tekens toegelaten")]
+        [StringLength(50, ErrorMessage = "Maximaal 50 karakters")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,100}$", ErrorMessage = "Geen speciale tekens toegelaten")]
         public string City
         {
             get { return city; }
@@ -104,7 +105,9 @@ namespace MVVMFestivalProject.model
         }
         
         private string phone;
-        //[Phone(ErrorMessage = "Het nummer is niet geldig")]
+        [Phone(ErrorMessage = "Het nummer is niet geldig")]
+        [Required(ErrorMessage = "Telefoon is verplicht")]
+        [StringLength(9,ErrorMessage="Maximaal 9 cijfers")]
         public string Phone
         {
             get { return phone; }
@@ -112,7 +115,9 @@ namespace MVVMFestivalProject.model
         }
 
         private string cellphone;
-        //[Phone(ErrorMessage = "Het nummer is niet geldig")]
+        [Phone(ErrorMessage="Het nummer is niet geldig")]
+        [Required(ErrorMessage="GSM-nummer is verplicht")]
+        [StringLength(10, ErrorMessage = "Maximaal 10 cijfers")]
         public string Cellphone
         {
             get { return cellphone; }
@@ -120,7 +125,7 @@ namespace MVVMFestivalProject.model
         }
 
         private string email;
-        [Required(ErrorMessage = "het emailadres is verplicht")]
+        [Required(ErrorMessage = "Het emailadres is verplicht")]
         [EmailAddress(ErrorMessage="Het emailadres is niet geldig")]
         public string Email
         {
@@ -148,7 +153,7 @@ namespace MVVMFestivalProject.model
                 ID = (int)record["ID"],
                 Name = record["Name"].ToString(),
                 FirstName = record["FirstName"].ToString(),
-                Gender = Convert.ToChar(record["Gender"]),
+                Gender = record["Gender"].ToString(),
                 BirthDate = Convert.ToDateTime(record["Birthdate"]),
                 Company = record["Company"].ToString(),
                 Street = record["Street"].ToString(),
@@ -190,7 +195,7 @@ namespace MVVMFestivalProject.model
 
         public string Error
         {
-            get { return "Object not valid"; }
+            get { return null; }
         }
 
         public bool IsValid()

@@ -23,7 +23,7 @@ namespace MVVMFestivalProject.model
 
         private string name;
         [Required(ErrorMessage = "Het type is verplicht")]
-        [StringLength(10, ErrorMessage = "Het type mag maximaal 10 karakters bevatten")]
+        [StringLength(20, ErrorMessage = "Het type mag maximaal 20 karakters bevatten")]
         public string Name
         {
             get { return name; }
@@ -32,7 +32,7 @@ namespace MVVMFestivalProject.model
 
         private double price;
         [Required(ErrorMessage = "De prijs is verplicht")]
-        [Range(0,999,ErrorMessage="De prijs moet tussen €0-999 liggen")]
+        [Range(1.00, 500.00, ErrorMessage = "De prijs moet tussen €1 en €500 liggen")]
         public double Price
         {
             get { return price; }
@@ -41,7 +41,7 @@ namespace MVVMFestivalProject.model
 
         private int availableTickets;
         [Required(ErrorMessage = "Het aantal is verplicht")]
-        [Range(0, 1000000)]
+        [Range(1, 500, ErrorMessage = "Het aantal moet tussen 1 en 500 liggen")]
         public int AvailableTickets
         {
             get { return availableTickets; }
@@ -112,7 +112,12 @@ namespace MVVMFestivalProject.model
 
         public string Error
         {
-            get { return "Object not valid"; }
+            get { return null; }
+        }
+
+        public bool IsValid()
+        {
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
         }
     }
 }

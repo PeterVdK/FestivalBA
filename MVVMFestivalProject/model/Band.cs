@@ -21,8 +21,8 @@ namespace MVVMFestivalProject.model
         }
 
         private string name;
-        [Required(ErrorMessage = "De artiest is verplicht")]
-        [StringLength(50, ErrorMessage = "De artiest mag maximaal 50 karakters bevatten")]
+        [Required(ErrorMessage = "De naam is verplicht")]
+        [StringLength(50, ErrorMessage = "De naam mag maximaal 50 karakters bevatten")]
         public string Name
         {
             get { return name; }
@@ -30,6 +30,7 @@ namespace MVVMFestivalProject.model
         }
 
         private string picture;
+        [Required(ErrorMessage = "het fotopad is verplicht")]
         public string Picture
         {
             get { return picture; }
@@ -45,6 +46,7 @@ namespace MVVMFestivalProject.model
         }
 
         private string twitter;
+        [Required(ErrorMessage = "De Twitter-URL is verplicht")]
         [StringLength(100, ErrorMessage = "De Twitter-URL mag maximaal 100 karakters bevatten")]
         public string Twitter
         {
@@ -53,6 +55,7 @@ namespace MVVMFestivalProject.model
         }
 
         private string facebook;
+        [Required(ErrorMessage = "De Facebook-URL is verplicht")]
         [StringLength(100, ErrorMessage = "De Facebook-URL mag maximaal 100 karakters bevatten")]
         public string Facebook
         {
@@ -135,7 +138,12 @@ namespace MVVMFestivalProject.model
 
         public string Error
         {
-            get { return "Object not valid"; }
+            get { return null; }
+        }
+
+        public bool IsValid()
+        {
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
         }
     }
 }

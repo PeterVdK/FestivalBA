@@ -23,5 +23,28 @@ namespace MVVMFestivalProject.view
         {
             InitializeComponent();
         }
+
+        private void btnNieuw_Click(object sender, RoutedEventArgs e)
+        {
+            btnToevoegen.IsEnabled = true;
+            btnBewerken.IsEnabled = false;
+            btnExporteren.IsEnabled = false;
+            txbOver.Visibility = Visibility.Hidden;
+        }
+
+        private void lsvReservaties_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnExporteren.IsEnabled = true;
+            btnToevoegen.IsEnabled = false;
+            btnBewerken.IsEnabled = true;
+        }
+
+        private void cboType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cboType.SelectedIndex > -1)
+            {
+                txbOver.Visibility = Visibility.Visible;
+            }
+        }
     }
 }

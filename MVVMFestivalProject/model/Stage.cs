@@ -23,6 +23,7 @@ namespace MVVMFestivalProject.model
 
         private string name;
         [Required(ErrorMessage = "Het podium is verplicht")]
+        [StringLength(50, ErrorMessage = "Maximaal 50 karakters")]
         public string Name
         {
             get { return name; }
@@ -92,7 +93,12 @@ namespace MVVMFestivalProject.model
 
         public string Error
         {
-            get { return "Object not valid"; }
+            get { return null; }
+        }
+
+        public bool IsValid()
+        {
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
         }
     }
 }

@@ -75,6 +75,50 @@ namespace MVVMFestivalProject.model
             return lineUp;
         }
 
+        public static ObservableCollection<LineUp> GetLineUpByStageID(string stageID)
+        {
+            ObservableCollection<LineUp> lineUp = new ObservableCollection<LineUp>();
+            string sql = "SELECT id,start,finish,bandid,stageid,festivaldagid FROM LineUp WHERE stageid=@stageid";
+            DbParameter par = Database.AddParameter("@stageid", stageID);
+            DbDataReader reader = Database.GetData(sql, par);
+
+            while (reader.Read() == true)
+            {
+                lineUp.Add(Create(reader));
+            }
+            return lineUp;
+        }
+
+        public static ObservableCollection<LineUp> GetLineUpByDateID(string dagID)
+        {
+            ObservableCollection<LineUp> lineUp = new ObservableCollection<LineUp>();
+            string sql = "SELECT id,start,finish,bandid,stageid,festivaldagid FROM LineUp WHERE festivaldagid=@dagid";
+            DbParameter par = Database.AddParameter("@dagid", dagID);
+            DbDataReader reader = Database.GetData(sql, par);
+
+            while (reader.Read() == true)
+            {
+                lineUp.Add(Create(reader));
+            }
+            return lineUp;
+        }
+
+        public static ObservableCollection<LineUp> GetLineUpByStageAndDateID(string stageID, string dagID)
+        {
+            ObservableCollection<LineUp> lineUp = new ObservableCollection<LineUp>();
+            string sql = "SELECT id,start,finish,bandid,stageid,festivaldagid FROM LineUp WHERE stageid=@stageid AND FestivaldagID=@dagid";
+
+            DbParameter parstage = Database.AddParameter("@stageid", stageID);
+            DbParameter pardag = Database.AddParameter("@dagid", dagID);
+            DbDataReader reader = Database.GetData(sql, parstage,pardag);
+
+            while (reader.Read() == true)
+            {
+                lineUp.Add(Create(reader));
+            }
+            return lineUp;
+        }
+
         private static LineUp Create(IDataRecord record)
         {
             return new LineUp()
@@ -112,7 +156,7 @@ namespace MVVMFestivalProject.model
 
         public string Error
         {
-            get { return "Object not valid"; }
+            get { return null; }
         }
     }
 }

@@ -24,3 +24,9 @@ C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFes
 C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\obj\Debug\MVVMFestivalProject.exe
 C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\obj\Debug\MVVMFestivalProject.pdb
 C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\obj\Debug\MVVMFestivalProject.csprojResolveAssemblyReference.cache
+C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\bin\Debug\GalaSoft.MvvmLight.Extras.WPF45.dll
+C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\bin\Debug\GalaSoft.MvvmLight.Extras.WPF45.xml
+C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\bin\Debug\System.Windows.Interactivity.xml
+C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\MVVMFestivalProject\bin\Debug\Microsoft.Practices.ServiceLocation.xml
