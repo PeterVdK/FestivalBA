@@ -1,5 +1,5 @@
 ﻿using Festival.Common;
-
+using Festival.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -69,6 +69,12 @@ namespace Festival
                     }
                 }
 
+                if (args.PreviousExecutionState == ApplicationExecutionState.Running)
+                {
+                    Window.Current.Activate();
+                    return;
+                }
+                await SampleDataSource.LoadLocalDataAsync();
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
             }

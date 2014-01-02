@@ -65,7 +65,7 @@ namespace MVVMFestivalProject.model
         public static ObservableCollection<LineUp> GetLineUp()
         {
             ObservableCollection<LineUp> lineUp = new ObservableCollection<LineUp>();
-            string sql = "SELECT id,start,finish,bandid,stageid,festivaldagid FROM LineUp";
+            string sql = "SELECT id,start,finish,bandid,stageid,festivaldagid FROM LineUp ORDER BY festivaldagid,start";
             DbDataReader reader = Database.GetData(sql);
 
             while (reader.Read() == true)
@@ -78,7 +78,7 @@ namespace MVVMFestivalProject.model
         public static ObservableCollection<LineUp> GetLineUpByStageID(string stageID)
         {
             ObservableCollection<LineUp> lineUp = new ObservableCollection<LineUp>();
-            string sql = "SELECT id,start,finish,bandid,stageid,festivaldagid FROM LineUp WHERE stageid=@stageid";
+            string sql = "SELECT id,start,finish,bandid,stageid,festivaldagid FROM LineUp WHERE stageid=@stageid ORDER BY festivaldagid,start";
             DbParameter par = Database.AddParameter("@stageid", stageID);
             DbDataReader reader = Database.GetData(sql, par);
 
@@ -92,7 +92,7 @@ namespace MVVMFestivalProject.model
         public static ObservableCollection<LineUp> GetLineUpByDateID(string dagID)
         {
             ObservableCollection<LineUp> lineUp = new ObservableCollection<LineUp>();
-            string sql = "SELECT id,start,finish,bandid,stageid,festivaldagid FROM LineUp WHERE festivaldagid=@dagid";
+            string sql = "SELECT id,start,finish,bandid,stageid,festivaldagid FROM LineUp WHERE festivaldagid=@dagid ORDER BY stageid,start";
             DbParameter par = Database.AddParameter("@dagid", dagID);
             DbDataReader reader = Database.GetData(sql, par);
 

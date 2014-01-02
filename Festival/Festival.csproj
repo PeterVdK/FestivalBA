@@ -101,6 +101,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\PortableClassLibrary\PortableClassLibrary.csproj">
+      <Project>{92e618ec-e791-43e5-b6a6-7934fcdfdd4a}</Project>
+      <Name>PortableClassLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

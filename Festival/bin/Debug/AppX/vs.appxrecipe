@@ -16,17 +16,25 @@
     <AppXManifest Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2013-12-11T17:23:50.508</Modified>
+      <Modified>2013-12-26T11:03:09.653</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\Festival.exe">
       <PackagePath>Festival.exe</PackagePath>
-      <Modified>2013-12-11T17:46:20.691</Modified>
+      <Modified>2013-12-28T12:08:24.841</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\Festival.pdb">
       <PackagePath>Festival.pdb</PackagePath>
-      <Modified>2013-12-11T17:46:20.195</Modified>
+      <Modified>2013-12-28T12:08:24.701</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\PortableClassLibrary\bin\Debug\PortableClassLibrary.dll">
+      <PackagePath>PortableClassLibrary.dll</PackagePath>
+      <Modified>2013-12-25T12:24:14.157</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\PortableClassLibrary\bin\Debug\PortableClassLibrary.pdb">
+      <PackagePath>PortableClassLibrary.pdb</PackagePath>
+      <Modified>2013-12-25T12:24:14.143</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\Assets\Logo.png">
       <PackagePath>Assets\Logo.png</PackagePath>
@@ -67,7 +75,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\App.xaml">
       <PackagePath>App.xaml</PackagePath>
-      <Modified>2013-12-11T15:11:58.759</Modified>
+      <Modified>2013-12-25T15:00:32.123</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\Common\StandardStyles.xaml">
       <PackagePath>Common\StandardStyles.xaml</PackagePath>
@@ -75,7 +83,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\GroupedItemsPage.xaml">
       <PackagePath>GroupedItemsPage.xaml</PackagePath>
-      <Modified>2013-12-11T17:38:29.316</Modified>
+      <Modified>2013-12-28T11:50:51.192</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\ItemDetailPage.xaml">
       <PackagePath>ItemDetailPage.xaml</PackagePath>
@@ -83,7 +91,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2013-12-11T17:10:43.492</Modified>
+      <Modified>2013-12-12T11:03:45.612</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

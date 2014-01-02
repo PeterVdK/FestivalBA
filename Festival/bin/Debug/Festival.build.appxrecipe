@@ -19,6 +19,12 @@
     <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\Festival.pdb">
       <PackagePath>Festival.pdb</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\PortableClassLibrary\bin\Debug\PortableClassLibrary.dll">
+      <PackagePath>PortableClassLibrary.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\PortableClassLibrary\bin\Debug\PortableClassLibrary.pdb">
+      <PackagePath>PortableClassLibrary.pdb</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\Assets\Logo.png">
       <PackagePath>Assets\Logo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>

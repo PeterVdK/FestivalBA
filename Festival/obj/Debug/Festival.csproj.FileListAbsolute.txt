@@ -28,3 +28,7 @@ C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festiva
 C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\obj\Debug\pri.resfiles
 C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\obj\Debug\LanguageQualifiers.txt
 C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\obj\Debug\ProjectArchitectures.txt
+C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\PortableClassLibrary.dll
+C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\bin\Debug\PortableClassLibrary.pdb
+C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\obj\Debug\Festival.csprojResolveAssemblyReference.cache
+C:\Users\Peter\Documents\Visual Studio 2012\Projects\MVVMFestivalProject\Festival\obj\Debug\Festival.csproj.GenerateResource.Cache
